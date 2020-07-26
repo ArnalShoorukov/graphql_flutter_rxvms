@@ -1,5 +1,5 @@
+import 'package:flutter_graphql/models/welcome.dart';
 import 'package:graphql/client.dart';
-
 class GraphQLService {
   GraphQLClient _client;
 
@@ -9,14 +9,16 @@ class GraphQLService {
     _client = GraphQLClient(link: link, cache: InMemoryCache());
   }
 
-  Future<QueryResult> performQuery(String query,
+  Future<Characters> performQuery(String query,
+
       {Map<String, dynamic> variables}) async {
     QueryOptions options =
     QueryOptions(documentNode: gql(query), variables: variables);
 
     final result = await _client.query(options);
 
-    return result;
+    Welcome  responseModel = Welcome.fromJson(result.data);
+    return responseModel.data;
   }
 
   Future<QueryResult> performMutation(String query,
@@ -25,8 +27,6 @@ class GraphQLService {
     MutationOptions(documentNode: gql(query), variables: variables);
 
     final result = await _client.mutate(options);
-
-    print(result);
 
     return result;
   }

@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_graphql/screens/home_screen.dart';
+import 'package:flutter_graphql/service_locator.dart';
 
 import 'blocs/home_bloc.dart';
 
-void main() {
+void main()  async{
+  // add this, and it should be the first line in main method because we use async inside main!
+  WidgetsFlutterBinding.ensureInitialized();
+  // Setup GetIt service locator
+  setUpServiceLocator();
 
   runApp(MyApp());
 }
@@ -29,10 +34,11 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: BlocProvider<HomeBloc>(
+      home: HomeScreen(),
+      /*home: BlocProvider<HomeBloc>(
         create: (BuildContext context) => HomeBloc()..add(FetchHomeData(query)),
         child: HomeScreen(),
-      ),
+      ),*/
     );
   }
 }
